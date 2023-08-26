@@ -192,7 +192,7 @@
                         n[3] += entry.size;
                         tblHtm += `<tr>
                             <td><span class="material-icons" title="File">insert_drive_file</span><span style="display:none">${entry.type}</span></td>
-                            <td><a download="${entry.name}" href="${url}">${entry.name}</a>
+                            <td><a href="${url}">${entry.name}</a>
                                     <span style="float:right"><a download="${entry.name}" href="${url}"><span class="material-icons" title="Save">download</span></a>
                                     <a href="${url}" target="_blank"><span class="material-icons" title="Open">open_in_browser</span></a></span>
                             </td>
@@ -265,7 +265,7 @@
             .lds:after {content: " "; display: block; width: 64px; height: 64px; margin: 8px; border-radius: 50%; border: 6px solid #ccc; border-color: #ccc transparent; animation: lds 1.2s linear infinite;}
             @keyframes lds {0% {transform: rotate(0deg);}100% {transform: rotate(360deg);}}
         </style>
-        <link id="idx-theme" rel="stylesheet" href="" crossorigin="anonymous">
+        <link id="idx-theme" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/milligram-themes@0.0.2/src/maroon.min.css" crossorigin="anonymous">
     </head>
     <body>
         <div class="load">
