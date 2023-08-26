@@ -1,0 +1,11 @@
+version: '3.3'
+
+services:
+  nginx:
+    image: download/nginx:latest
+    build: ./nginx
+    restart: always
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - "17500:80"
