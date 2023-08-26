@@ -179,6 +179,10 @@
                     $('section').style.backgroundImage = "url(https://www.marktai.com/download/me/perm/long_and_kpop.jpg)"; 
                     setTheme('https://cdn.jsdelivr.net/npm/milligram-themes@0.0.2/src/navy.min.css')
                 }
+                else if (pathname.includes('/download/mootropolis/')) {
+                    $('section').style.backgroundImage = "url(https://www.marktai.com/download/54689/spy_cow_bg.jpg)"; 
+                    setTheme('https://cdn.jsdelivr.net/npm/milligram-themes@0.0.2/src/maroon.min.css')
+                }
                 
                 setSortable();
 
@@ -217,8 +221,10 @@
                     } else {
                         ++n[2];
                         n[3] += entry.size;
-                        const hoverFiletypes = ['.svg', '.png', '.jpg', '.jpeg']
-                        let imgHover = hoverFiletypes.some(f => entry.name.toLowerCase().endsWith(f)) ? 'hoverable-image-link' : '';
+                        const hoverImageFiletypes = ['.svg', '.png', '.jpg', '.jpeg'];
+                        const hoverPdfFiletype = '.pdf';
+                        let imgHover = hoverImageFiletypes.some(f => entry.name.toLowerCase().endsWith(f)) ? 
+                            'hoverable-image-link' : (entry.name.toLowerCase().endsWith(hoverPdfFiletype) ? 'hoverable-pdf-link' : '');
                         tblHtm += `<tr>
                             <td><span class="material-icons" title="File">insert_drive_file</span><span style="display:none">${entry.type}</span></td>
                             <td><div>
@@ -267,14 +273,13 @@
                 let yPos = 0;
                 let show = false;
                 let debounceTimer = null;
-                const debounceTimeout = 3000; // milliseconds
+                const debounceTimeout = 5000; // milliseconds
 
                 function disableHover(){
                     if (debounceTimer === null){
                         return;
                     }
                     let distance = Date.now() - debounceTimer;
-                    console.log(distance);
 
                     if (distance < debounceTimeout){
                         setTimeout(function() {
@@ -289,13 +294,22 @@
 
                     show = false;
                     debounceTimer = null;
-                    $("#floating-image").setAttribute('style', generateStyle());
+                    $("#floating-preview").setAttribute('style', generateStyle());
                 }
 
-                function enableHover(src = ''){
+                function enableHover(src = '', img = true){
                     debounceTimer = Date.now();
-                    $("#floating-image").setAttribute('style', generateStyle());
-                    $("#floating-image").setAttribute('src', src);
+                    $("#floating-preview").setAttribute('style', generateStyle());
+                    if (img){
+                        $("#floating-preview>img").setAttribute('src', src);
+                        $("#floating-preview>img").setAttribute('style', 'display: block;');
+                        $("#floating-preview>object").setAttribute('style', 'display: none;');
+                    } else {
+                        $("#floating-preview>object").setAttribute('data', src);
+                        $("#floating-preview>object").setAttribute('style', 'display: block;');
+                        $("#floating-preview>img").setAttribute('style', 'display: none;');
+
+                    }
                     show = true;
                     disableHover();
                 }
@@ -309,14 +323,23 @@
                     if (!elements.hasOwnProperty(i)) continue;
                     let imgsrc = elements[i].attributes.imgsrc.nodeValue;
                     elements[i].addEventListener( 'mouseover', function(e) {
-                        enableHover(imgsrc);
+                        enableHover(imgsrc, true);
+                    });
+                }
+
+                var elements = document.getElementsByClassName('hoverable-pdf-link');
+                for (var i in elements) {
+                    if (!elements.hasOwnProperty(i)) continue;
+                    let imgsrc = elements[i].attributes.imgsrc.nodeValue;
+                    elements[i].addEventListener( 'mouseover', function(e) {
+                        enableHover(imgsrc, false);
                     });
                 }
 
                 document.addEventListener( 'mousemove', function(event) {
                     xPos = event.clientX + 2;
                     yPos = event.clientY + 2;
-                    $("#floating-image").setAttribute('style', generateStyle());
+                    $("#floating-preview").setAttribute('style', generateStyle());
                 });
             }
 
@@ -367,24 +390,40 @@
             .lds:after {content: " "; display: block; width: 64px; height: 64px; margin: 8px; border-radius: 50%; border: 6px solid #ccc; border-color: #ccc transparent; animation: lds 1.2s linear infinite;}
             @keyframes lds {0% {transform: rotate(0deg);}100% {transform: rotate(360deg);}}
 
-            #floating-image {
+            #floating-preview {
                 position:absolute; 
+                left: 0;
+                top: 0;
+                z-index: 10;
+                display: none;
+            }
+
+            #floating-preview>img {
                 min-width: 100px;
                 max-width: 40vw;
                 min-height: 100px;
                 max-height: 40vh;
-                left: 0;
-                top: 0;
-                z-index: 4;
-                display: none;
-                border-radius: 4px;
+                border-radius: 8px;
                 box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+                display: none;
+            }
+
+            #floating-preview>object {
+                min-width: 200px;
+                max-width: 40vw;
+                min-height: 400px;
+                max-height: 50vh;
+                box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+                display: none;
             }
         </style>
         <link id="idx-theme" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/milligram-themes@0.0.2/src/navy.min.css" crossorigin="anonymous">
     </head>
     <body>
-        <img id="floating-image"/>
+        <div id="floating-preview">
+            <img/>
+            <object class="pdf" data="https://www.marktai.com/download/Mark_Tai_Resume.pdf" type="application/pdf"></object>
+        </div>
         <div class="load">
             <div class="lds"></div>
         </div>
