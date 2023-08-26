@@ -197,10 +197,17 @@
                         n[3] += entry.size;
                         tblHtm += `<tr>
                             <td><span class="material-icons" title="File">insert_drive_file</span><span style="display:none">${entry.type}</span></td>
-                            <td><span class="filename"><a href="${url}">${entry.name}</a></span>
-                                    <span style="float:right"><a download="${entry.name}" href="${url}"><span class="material-icons" title="Save">download</span></a>
-                                    <a href="${url}" target="_blank"><span class="material-icons" title="Open">open_in_browser</span></a></span>
-                            </td>
+                            <td><div>
+                                <div class="filename">
+                                    <div class="filename-inner">
+                                        <a href="${url}">${entry.name}</a>
+                                    </div>
+                                </div>
+                                <div class="ui-icons">
+                                    <a download="${entry.name}" href="${url}"><span class="material-icons" title="Save">download</span></a>
+                                    <a href="${url}" target="_blank"><span class="material-icons" title="Open">open_in_browser</span></a>
+                                </div>
+                            </div></td>
                             <td>${entry.mtime}</td>
                             <td>${humanFileSize(entry.size, true, 2)}</td>
                         </tr>`;
@@ -254,7 +261,10 @@
             th span.material-icons{vertical-align: top; padding: 0 0 0 1em;}
             th:first-child{padding: unset;}
             td:first-child{width: 32px;}
-            td:nth-child(2){max-width: 70vw; overflow-x:scroll;}
+            td:nth-child(2){max-width: 70vw; overflow-x: scroll;}
+            td:nth-child(2) .filename{display: inline-block; overflow-x: scroll; max-width: 50vw;}
+            td:nth-child(2) .filename .filename-inner{width:90vw; display: block;}
+            td:nth-child(2) .ui-icons{direction: rtl; float:right; display:inline-block;}
             td:nth-child(n+3){width: 1%; white-space: nowrap; text-align: right}
             tr{transition: all 0.2s ease 0s;}
             tr:hover{box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.5);}
