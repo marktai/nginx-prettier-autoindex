@@ -7,5 +7,9 @@ services:
     restart: always
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - .:/repo
+     
+      # My upload directory on my server
+      - /home/mtai/upload:/host_upload_directory
     ports:
       - "17500:80"
