@@ -149,6 +149,10 @@
                 }
             }
 
+            function setTheme(v = '') {
+                $('#idx-theme').href = v.includes('https') ? v : `https://cdn.jsdelivr.net/npm/milligram-themes@0.0.2/src/${v}.min.css`;
+            }
+
             function getHref(u = ''){
                 return u + window.location.search;
             }
@@ -158,20 +162,17 @@
                     prm = new URLSearchParams(window.location.search);
 
                 document.removeEventListener('DOMContentLoaded', main);
-                    
+                
                 if (prm.has('b')) {
                     $('section').style.backgroundImage = `url("${decodeURIComponent(prm.get('b'))}")`;
                 }
 
-                $(s).addEventListener('keyup', function(e) { filterTable(e.target.value, 3); });
+                if (pathname.includes('/download/me/music/')) {
+                    $('section').style.backgroundImage = "url(https://www.marktai.com/download/54689/tai_singing_bg.jpg)"; 
+                    setTheme('https://cdn.jsdelivr.net/npm/milligram-themes@0.0.2/src/black.min.css')
+                }
                 
                 setSortable();
-
-                $('#idx-path').innerHTML = '<small>' +
-                    pathname.split('/').reduce(function(a, v, i, o) {
-                        return a += ` / <a href="#" onclick="window.open(getHref('/${o.slice(1, i+1).join('/')}'),'_self')">${v}</a> `;
-                    }); +
-                '</small>'
             }
 
             function setData(a = [], n = [0,0,0,0], p = 15000, m = 1, c = 'table tbody', f = 'footer') {
@@ -188,7 +189,15 @@
                         ++n[1];
                         tblHtm += `<tr>
                             <td><span class="material-icons" title="Folder">folder</span><span style="display:none">${entry.type}</span></td>
-                            <td><a href="#" onclick="window.open(getHref('${url}'),'_self')">${entry.name}</a></td>
+                            <td>
+                                <div class="filename">
+                                    <div class="filename-wide-container">
+                                        <div class="filename-tight-container">
+                                            <a href="${url}">${entry.name}</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
                             <td>${entry.mtime}</td>
                             <td></td>
                         </tr>`;
@@ -199,8 +208,10 @@
                             <td><span class="material-icons" title="File">insert_drive_file</span><span style="display:none">${entry.type}</span></td>
                             <td><div>
                                 <div class="filename">
-                                    <div class="filename-inner">
-                                        <a href="${url}">${entry.name}</a>
+                                    <div class="filename-wide-container">
+                                        <div class="filename-tight-container">
+                                            <a href="${url}">${entry.name}</a>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="ui-icons">
@@ -261,15 +272,16 @@
             th span.material-icons{vertical-align: top; padding: 0 0 0 1em;}
             th:first-child{padding: unset;}
             td:first-child{width: 32px;}
-            td:nth-child(2){max-width: 70vw; overflow-x: scroll;}
-            td:nth-child(2) .filename{display: inline-block; overflow-x: scroll; max-width: 50vw;}
-            td:nth-child(2) .filename .filename-inner{width:90vw; display: block;}
-            td:nth-child(2) .ui-icons{direction: rtl; float:right; display:inline-block;}
+            td:nth-child(2){max-width: 70vw; overflow-x: scroll; padding:0;}
+            td:nth-child(2) .filename{display: inline-block; overflow-x: scroll; overflow-y: clip; max-width: 50vw;}
+            td:nth-child(2) .filename .filename-wide-container{max-width:90vw; display: block; max-height:2em;}
+            td:nth-child(2) .filename .filename-tight-container{display: inline-block; background:white; padding: 2px 4px 2px 4px; border-radius: 8px}
+            td:nth-child(2) .ui-icons{direction: rtl; float:right; display:inline-block; padding:4px;}
             td:nth-child(n+3){width: 1%; white-space: nowrap; text-align: right}
             tr{transition: all 0.2s ease 0s;}
             tr:hover{box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.5);}
             span.material-icons + span{vertical-align: middle; padding: 0 2em 0 1em;}
-            section{width: 100%; height: 100%; position: fixed; left: 0; right: 0; z-index: 1; background-size: cover; background-repeat: no-repeat; background-attachment: fixed; background-position: center; filter: blur(3px); opacity: 0.13}
+            section{width: 100%; min-width:1000px; height: 100%; position: fixed; left: 0; right: 0; z-index: 1; background-size: cover; background-repeat: no-repeat; background-attachment: fixed; background-position: center; filter: blur(3px); opacity: 0.3}
             article{z-index: 3;}
             #idx-filter{width: unset;}
             #idx-path{vertical-align: text-top;}
@@ -287,21 +299,6 @@
         <div class="load">
             <div class="lds"></div>
         </div>
-        <header>
-            <ul>
-                <li>
-                    <span class="material-icons" style="font-size: 36px;">drive_file_move</span>
-                    <span id="idx-path"></span>
-                </li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li>
-                    <span class="material-icons">filter_alt</span>
-                    <input id="idx-filter" type="text" placeholder="Filter">
-                </li>
-            </ul>
-        </header>
         <main>
             <section></section>
             <article>
