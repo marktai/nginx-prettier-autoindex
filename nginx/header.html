@@ -172,7 +172,7 @@
                     setTheme('https://cdn.jsdelivr.net/npm/milligram-themes@0.0.2/src/black.min.css')
                 }
                 else if (pathname.includes('/download/me/diving/')) {
-                    $('section').style.backgroundImage = "url(https://www.marktai.com/download/me/diving/turtle.JPG)"; 
+                    $('section').style.backgroundImage = "url(https://www.marktai.com/download/me/diving/taiwan/mark_turtle.jpg)"; 
                     setTheme('https://cdn.jsdelivr.net/npm/milligram-themes@0.0.2/src/dark2.min.css')
                 }
                 else if (pathname.includes('/download/me/perm/')) {
@@ -222,7 +222,7 @@
                         ++n[2];
                         n[3] += entry.size;
                         const hoverImageFiletypes = ['.svg', '.png', '.jpg', '.jpeg'];
-                        const hoverPdfFiletype = '.pdf';
+                        const hoverPdfFiletype = navigator.userAgent.includes("Chrome") ? '.pdf' : '$IGNORE_PDF';
                         let imgHover = hoverImageFiletypes.some(f => entry.name.toLowerCase().endsWith(f)) ? 
                             'hoverable-image-link' : (entry.name.toLowerCase().endsWith(hoverPdfFiletype) ? 'hoverable-pdf-link' : '');
                         tblHtm += `<tr>
