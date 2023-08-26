@@ -167,17 +167,25 @@
                     $('section').style.backgroundImage = `url("${decodeURIComponent(prm.get('b'))}")`;
                 }
 
-                if (pathname.includes('/download/me/music/')) {
+                if (pathname.includes('/download/me/music/') || pathname.includes('/download/music/')) {
                     $('section').style.backgroundImage = "url(https://www.marktai.com/download/54689/tai_singing_bg.jpg)"; 
                     setTheme('https://cdn.jsdelivr.net/npm/milligram-themes@0.0.2/src/black.min.css')
+                }
+                else if (pathname.includes('/download/me/diving/')) {
+                    $('section').style.backgroundImage = "url(https://www.marktai.com/download/me/diving/turtle.JPG)"; 
+                    setTheme('https://cdn.jsdelivr.net/npm/milligram-themes@0.0.2/src/dark2.min.css')
+                }
+                else if (pathname.includes('/download/me/perm/')) {
+                    $('section').style.backgroundImage = "url(https://www.marktai.com/download/me/perm/long_and_kpop.jpg)"; 
+                    setTheme('https://cdn.jsdelivr.net/npm/milligram-themes@0.0.2/src/navy.min.css')
                 }
                 
                 setSortable();
 
-                $('#idx-path').innerHTML = '<small>' +
+                $('#idx-path').innerHTML = '<span>' +
                     pathname.split('/').reduce(function(a, v, i, o) {
                         return a += ` / <a href="#" onclick="window.open(getHref('/${o.slice(1, i+1).join('/')}'),'_self')">${v}</a> `;
-                    }) + '</small>';
+                    }) + '</span>';
             }
 
             function setData(a = [], n = [0,0,0,0], p = 15000, m = 1, c = 'table tbody', f = 'footer') {
@@ -289,7 +297,7 @@
             section{width: 100%; min-width:1000px; height: 100%; position: fixed; left: 0; right: 0; z-index: 1; background-size: cover; background-repeat: no-repeat; background-attachment: fixed; background-position: center; filter: blur(3px); opacity: 0.3}
             article{z-index: 3;}
             #idx-filter{width: unset;}
-            #idx-path{vertical-align: text-top;}
+            .path{vertical-align: text-top;}
             #idx-json{display: none;}
             .header{background-color: #fff;}
             .material-icons{vertical-align: middle;}
@@ -307,8 +315,9 @@
         <header>
             <ul>
                 <li>
-                    <span class="material-icons" style="font-size: 36px;">drive_file_move</span>
-                    <span id="idx-path"></span>
+                    <!-- <span class="material-icons" style="font-size: 36px;">drive_file_move</span> -->
+                    <span class="path"><a href="https://www.marktai.com">marktai.com</a></span>
+                    <span id="idx-path" class="path"></span>
                 </li>
         </header>
         <main>
