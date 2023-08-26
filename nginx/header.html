@@ -5,7 +5,7 @@
         <meta charset="UTF-8"/> 
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
         <meta name="description" content="NGINdeX.io is NGINX autoindex redux.">
-        <title>NGINdeX.io</title>
+        <title>download.marktai.com</title>
         <link rel="shortcut icon" href="https://fonts.gstatic.com/s/i/materialicons/drive_file_move/v17/24px.svg" crossorigin="anonymous">
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" crossorigin="anonymous">
         <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic" crossorigin="anonymous"> -->
@@ -173,6 +173,11 @@
                 }
                 
                 setSortable();
+
+                $('#idx-path').innerHTML = '<small>' +
+                    pathname.split('/').reduce(function(a, v, i, o) {
+                        return a += ` / <a href="#" onclick="window.open(getHref('/${o.slice(1, i+1).join('/')}'),'_self')">${v}</a> `;
+                    }) + '</small>';
             }
 
             function setData(a = [], n = [0,0,0,0], p = 15000, m = 1, c = 'table tbody', f = 'footer') {
@@ -299,6 +304,13 @@
         <div class="load">
             <div class="lds"></div>
         </div>
+        <header>
+            <ul>
+                <li>
+                    <span class="material-icons" style="font-size: 36px;">drive_file_move</span>
+                    <span id="idx-path"></span>
+                </li>
+        </header>
         <main>
             <section></section>
             <article>
